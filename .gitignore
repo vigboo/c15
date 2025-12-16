@@ -77,7 +77,6 @@ chromedriver.log
 # --- Python (Самый частый спутник автоматизации) ---
 __pycache__/
 *.pyc
-.env
 venv/
 .venv/
 home/.config
