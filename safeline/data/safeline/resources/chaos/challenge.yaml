@@ -1,0 +1,29 @@
+debug: false
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+
+robot:
+  threshold: 1
+  calculators:
+    range: 1
+    sampling: 1
+    smoothness: 1
+    acceleration: 1
+    dpi: 1
+
+jwt:
+  secret_key: |-
+    -----BEGIN EC PRIVATE KEY-----
+    MHcCAQEEIIHkoG7vQInfBJPneaRR473qGdsJeLl8Uhlh3mTdl18MoAoGCCqGSM49
+    AwEHoUQDQgAEcA3wUNyDZyuBY2lP9pOpR/9h1UtCuFhk/tqBQOmUnh4tXQOHq7Ka
+    DGkUVKzhJaDx+lmwuqu/1XKAciSydEIK1Q==
+    -----END EC PRIVATE KEY-----
+  public_key: |-
+    -----BEGIN PUBLIC KEY-----
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEcA3wUNyDZyuBY2lP9pOpR/9h1UtC
+    uFhk/tqBQOmUnh4tXQOHq7KaDGkUVKzhJaDx+lmwuqu/1XKAciSydEIK1Q==
+    -----END PUBLIC KEY-----
+  algorithm: "ES256"
+  expire_seconds: 30

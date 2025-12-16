@@ -80,3 +80,43 @@ __pycache__/
 .env
 venv/
 .venv/
+home/.config
+.config/pulse/
+**/.config/pulse/
+*.sock
+.config/xfce4/
+
+# Игнор настроек других графических оболочек (на всякий случай)
+.config/gnome/
+.config/kde/
+.config/gtk-3.0/
+
+# Если вам вообще не нужны конфиги софта в этом репозитории,
+# можно раскомментировать строку ниже (это решит 90% проблем):
+.config/
+.gnupg/
+# --- Linux Home Dir Trash ---
+# Ключи и доступы (ОПАСНО КОММИТИТЬ!)
+.gnupg/
+.ssh/
+.pki/
+
+# Системные настройки и кеши (вызывают ошибки сокетов)
+.config/
+.cache/
+.local/
+.dbus/
+.gvfs/
+
+# История команд (не нужно в репозитории)
+.bash_history
+.zsh_history
+.lesshst
+.viminfo
+.pcsc10/
+.pcsc11/
+.pcsc12/
+.pcsc13/
+users/test*
+
+**/ossec/queue/**

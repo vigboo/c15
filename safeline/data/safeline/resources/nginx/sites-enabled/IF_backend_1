@@ -1,0 +1,81 @@
+log_format safeline_1 '$remote_addr | $remote_user | $time_local | "$host" | '
+                    '"$request" | $status | $body_bytes_sent | '
+                    '"$http_referer" | "$http_user_agent"';
+upstream backend_1 {
+    server 192.168.4.34:80;
+    keepalive 128;
+    keepalive_timeout 75;
+}
+map $scheme $hsts_header {
+        https   "max-age=15768000;";
+}
+server {
+    listen 0.0.0.0:80 default_server backlog=65536 reuseport;
+    server_name _;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    access_log /var/log/nginx/safeline/accesslog_1 safeline_1;
+    error_page 497 =302 https://$host:$server_port$request_uri;
+    error_page 502 =502 /.safeline/bad_gateway_page;
+    error_page 504 =504 /.safeline/gateway_timeout_page;
+    include /etc/nginx/tamper-enabled/site_1/tamper_*;
+    gzip on;
+    brotli on;
+    location = /.safeline/forbidden_page {
+        internal;
+        proxy_pass http://unix:/app/sock/tcd_error.sock;
+        t1k_intercept off;
+        tx_intercept off;
+    }
+    location = /.safeline/acl_page {
+        internal;
+        proxy_pass http://unix:/app/sock/tcd_error.sock;
+        t1k_intercept off;
+        tx_intercept off;
+    }
+    location = /.safeline/bad_gateway_page {
+        internal;
+        proxy_pass http://unix:/app/sock/tcd_error.sock;
+        t1k_intercept off;
+        tx_intercept off;
+    }
+    location = /.safeline/gateway_timeout_page {
+        internal;
+        proxy_pass http://unix:/app/sock/tcd_error.sock;
+        t1k_intercept off;
+        tx_intercept off;
+    }
+    location ^~ /.safeline/offline_page {
+        internal;
+        add_header cache-control no-cache;
+        proxy_pass http://unix:/app/sock/tcd_error.sock;
+        t1k_intercept off;
+        tx_intercept off;
+    }
+    location ^~ /.safeline/challenge/v2/ {
+        proxy_pass http://192.168.4.10:8080/challenge/v2/;
+        t1k_intercept off;
+        tx_intercept off;
+    }
+    location ^~ /.safeline/static {
+        charset utf-8;
+        alias /etc/nginx/safeline-static;
+        t1k_intercept off;
+        tx_intercept off;
+    }
+    location ^~ / {
+        proxy_pass http://backend_1;
+        include proxy_params;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        include /etc/nginx/custom_params/backend_1;
+        t1k_add_user_data "1";
+        tx_add_user_data "1";
+        t1k_body_size 1024k;
+        tx_body_size 4k;
+        t1k_error_page 403 /.safeline/forbidden_page;
+        t1k_error_page 429 /.safeline/acl_page;
+        t1k_error_page 466 /.safeline/offline_page;
+        tx_error_page 403 /.safeline/forbidden_page;
+        t1k_error_page 465 /.safeline/waiting_room_page;
+    }
+}
