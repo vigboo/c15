@@ -40,7 +40,7 @@ done < <(ip -o -4 addr show)
 # Задаем дефолтный маршрут на NAT
 echo "Adding default route via ${SUBNET_UPLINK}.1 on eth_uplink"
 ip route add default via $SUBNET_UPLINK.1 dev eth_uplink || true
-ip route add 10.0.0.0/8 via $SUBNET_DMZ.$VPN_SRV_IP
+ip route add 10.11.0.0/16 via $SUBNET_DMZ.$VPN_SRV_IP
 
 nft flush table inet fw || true
 nft flush chain ip nat PREROUTING || true

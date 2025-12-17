@@ -52,7 +52,16 @@ service nscd start
 echo "Testing LDAP connection..."
 getent passwd test || echo "LDAP user 'test' not found via NSS"
 
-
+# Права на домашние директории: владелец по имени каталога, права 0755
+# Нужно если подключалось через volumes и права не сохранились при загрузке с гита
+for d in /home/users/*; do
+  [ -d "$d" ] || continue
+  user=$(basename "$d")
+  if id "$user" >/dev/null 2>&1; then
+    chown -R "$user:$user" "$d"
+    chmod 0755 "$d"
+  fi
+done
 
 # WAZUH AGENT INSTALLATION
 # Install GPG/curl, add Wazuh key to a dedicated keyring, add repo, then install the agent.

@@ -28,10 +28,6 @@ services:
         ipv4_address: ${SUBNET_DEV}.254
     volumes:
       - ./fw/nftables.conf:/etc/nftables.conf:rw
-      # Из-за flush ruleset ломается внутренний DNS-сервис 127.0.0.11 контейнера,
-      # поэтому надо вручную назначить корпоративный DNS-сервер
-      #- ./fw/etc/resolv.conf:/etc/resolv.conf:ro
-      - ./ansible_agent_deploy.sh:/usr/local/bin/ansible_agent_deploy.sh:rw
     environment:
       SVC_IB_ADMIN_PASSWORD: ${SVC_IB_ADMIN_PASSWORD}
       GATEWAY_IP: ${SUBNET_UPLINK}.1
@@ -188,11 +184,9 @@ services:
     volumes:
       - ./srv_dns/Corefile:/etc/coredns/Corefile:ro
       - ./srv_dns/layer8.ag.db:/etc/coredns/layer8.ag.db:ro
-      - ./ansible_agent_deploy.sh:/usr/local/bin/ansible_agent_deploy.sh:rw      
     dns: ["1.1.1.1", "8.8.8.8"]
     environment:
       GATEWAY_IP: ${SUBNET_SERVERS}.254
-      ANSIBLE_HASH: ${ANSIBLE_HASH}
       DNS_SRV_IP: ${SUBNET_SERVERS}.${DNS_SRV_IP}
 
   srv_users:
@@ -335,6 +329,7 @@ services:
   srv_wazuh_manager:
     build: ./srv_wazuh_manager
     hostname: srv_wazuh_manager
+    container_name: srv_wazuh_manager
     restart: always
     cap_add:
       - NET_ADMIN         
@@ -388,6 +383,7 @@ services:
   srv_wazuh_indexer:
     build: ./srv_wazuh_indexer
     hostname: srv_wazuh_indexer
+    container_name: srv_wazuh_indexer
     restart: always
     cap_add:
       - NET_ADMIN
@@ -423,6 +419,7 @@ services:
   srv_wazuh_dashboard:
     build: ./srv_wazuh_dashboard
     hostname: srv_wazuh_dashboard
+    container_name: srv_wazuh_dashboard
     restart: always
     cap_add:
       - NET_ADMIN         
@@ -507,6 +504,7 @@ services:
     build: ./srv_waf
     #image: owasp/modsecurity-crs:nginx
     hostname: srv_waf
+    container_name: srv_waf
     cap_add: [ "NET_ADMIN" ]    
     depends_on: [ fw ]    
     ports:
@@ -598,6 +596,7 @@ services:
   pc_student:
     build: ./pc
     hostname: pc_student
+    container_name: pc_student
     cap_add:
       - NET_ADMIN        
     volumes:
@@ -614,6 +613,7 @@ services:
       PC_USERPWD: $PC_USERPWD_STUDENT
       WAZUH_MANAGER_IP: ${SUBNET_INFOSEC}.${WAZUH_SRV_IP}      
     dns:
+      - 1.1.1.1
       - ${SUBNET_SERVERS}.${DNS_SRV_IP}
     ports:
       - "33389:3389"
@@ -624,6 +624,7 @@ services:
   pc_vpupkin:
     build: ./pc
     hostname: pc_vpupkin
+    container_name: pc_vpupkin
     profiles: ["manual"]    
     cap_add:
       - NET_ADMIN        
@@ -651,6 +652,7 @@ services:
   pc_vkrutikov:
     build: ./empty
     hostname: pc_vkrutikov
+    container_name: pc_vkrutikov
     cap_add:
       - NET_ADMIN        
     volumes:

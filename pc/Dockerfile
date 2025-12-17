@@ -34,5 +34,6 @@ RUN sed -i 's/passwd:         files/passwd:         files ldap/' /etc/nsswitch.c
     sed -i 's/shadow:         files/shadow:         files ldap/' /etc/nsswitch.conf
 
 COPY /start.sh /usr/bin/start.sh
+RUN chmod +x /usr/bin/start.sh
 
 ENTRYPOINT ["/usr/bin/start.sh"]

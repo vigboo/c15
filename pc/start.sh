@@ -77,6 +77,17 @@ if [ -n "${PC_USERNAME:-}" ] && [ -n "${PC_USERPWD:-}" ]; then
     echo "${PC_USERNAME}:${PC_USERPWD}" | chpasswd
 fi
 
+# Права на домашние директории: владелец по имени каталога, права 0755
+# Нужно если подключалось через volumes и права не сохранились при загрузке с гита
+for d in /home/*; do
+  [ -d "$d" ] || continue
+  user=$(basename "$d")
+  if id "$user" >/dev/null 2>&1; then
+    chown -R "$user:$user" "$d"
+    chmod 0755 "$d"
+  fi
+done
+
 # WAZUH AGENT INSTALLATION
 # Install GPG/curl, add Wazuh key to a dedicated keyring, add repo, then install the agent.
 # apt-get update
