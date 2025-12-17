@@ -16,6 +16,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     wireguard \
     remmina\
     curl \
+    dnsutils \
+    openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Настройка PAM (mkhomedir)

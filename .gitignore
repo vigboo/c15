@@ -41,7 +41,6 @@ home/.mozilla/
 .DS_Store
 Thumbs.db
 Desktop.ini
-*.log
 *.tmp
 
 # --- IDE & Editors (Настройки редакторов) ---

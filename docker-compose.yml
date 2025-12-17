@@ -613,7 +613,6 @@ services:
       PC_USERPWD: $PC_USERPWD_STUDENT
       WAZUH_MANAGER_IP: ${SUBNET_INFOSEC}.${WAZUH_SRV_IP}      
     dns:
-      - 1.1.1.1
       - ${SUBNET_SERVERS}.${DNS_SRV_IP}
     ports:
       - "33389:3389"
@@ -717,7 +716,7 @@ networks:
     driver_opts:
       com.docker.network.bridge.enable_icc: "true"
       com.docker.network.bridge.name: br-uplink
-      com.docker.network.bridge.enable_ip_masquerade: "false"      
+#      com.docker.network.bridge.enable_ip_masquerade: "false"      
   dev_net:
     driver: bridge
     ipam:
