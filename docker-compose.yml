@@ -1,5 +1,4 @@
 
-
 services:
   fw:
     hostname: fw
@@ -46,8 +45,10 @@ services:
 
 # Servers
   srv_espocrm:
-    image: espocrm/espocrm:latest
+    #image: espocrm/espocrm:latest
+    build: ./srv_espocrm
     container_name: srv_espocrm
+    cap_add: [ "NET_ADMIN" ]    
     environment:
       APACHE_LOG_DIR: /var/log/apache2
       ESPOCRM_CONFIG_LOGGER_PATH: data/logs/espo.log
@@ -60,7 +61,8 @@ services:
       ESPOCRM_ADMIN_PASSWORD: password
       ESPOCRM_SITE_URL: crm.layer8.ag:80
       ESPOCRM_CONFIG_USE_WEB_SOCKET: false
-      WAZUH_MANAGER_IP: ${SUBNET_INFOSEC}.${WAZUH_SRV_IP}      
+      WAZUH_MANAGER_IP: ${SUBNET_INFOSEC}.${WAZUH_SRV_IP}     
+      GATEWAY_IP: ${SUBNET_SERVERS}.254       
     volumes:
       - ./espocrm/var/www/html:/var/www/html
       - ./espocrm/log/apache2:/var/log/apache2
@@ -192,6 +194,7 @@ services:
   srv_users:
     build: ./bastion
     hostname: srv_users
+    container_name: srv_users
     cap_add:
       - NET_ADMIN     
     volumes:
@@ -220,6 +223,7 @@ services:
   srv_dev:
     build: ./bastion
     hostname: srv_dev
+    container_name: srv_dev
     cap_add:
       - NET_ADMIN         
     volumes:
@@ -246,6 +250,7 @@ services:
   srv_bastion_mgmt:
     build: ./bastion
     hostname: srv_bastion_mgmt
+    container_name: srv_bastion_mgmt
     cap_add:
       - NET_ADMIN         
     volumes:
@@ -273,6 +278,7 @@ services:
   srv_bastion_ib:
     build: ./bastion
     hostname: srv_bastion_ib
+    container_name: srv_bastion_ib
     cap_add:
       - NET_ADMIN        
     volumes:
@@ -451,6 +457,8 @@ services:
         ipv4_address: ${SUBNET_INFOSEC}.90
         aliases:
           - wazuh.manager
+    dns:
+      - ${SUBNET_SERVERS}.${DNS_SRV_IP}   
 
   srv_leafwiki:
     #image: ghcr.io/perber/leafwiki:latest
@@ -607,7 +615,7 @@ services:
       LDAP_READONLY_USER_USERNAME: ${LDAP_READONLY_USER_USERNAME}
       LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}  
       SG_ADMINS: SG-SRV-PC-ADMINS
-      GATEWAY_IP: ${SUBNET_UPLINK}.254
+      GATEWAY_IP: ${SUBNET_UPLINK}.1
       LDAP_SRV_IP: ${SUBNET_SERVERS}.${LDAP_SRV_IP}       
       PC_USERNAME: $PC_USERNAME_STUDENT
       PC_USERPWD: $PC_USERPWD_STUDENT
@@ -623,8 +631,7 @@ services:
   pc_vpupkin:
     build: ./pc
     hostname: pc_vpupkin
-    container_name: pc_vpupkin
-    profiles: ["manual"]    
+    container_name: pc_vpupkin 
     cap_add:
       - NET_ADMIN        
     volumes:
@@ -635,7 +642,7 @@ services:
       LDAP_READONLY_USER_USERNAME: ${LDAP_READONLY_USER_USERNAME}
       LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}  
       SG_ADMINS: SG-SRV-PC-ADMINS
-      GATEWAY_IP: ${SUBNET_UPLINK}.254
+      GATEWAY_IP: ${SUBNET_UPLINK}.1
       LDAP_SRV_IP: ${SUBNET_SERVERS}.${LDAP_SRV_IP}       
       PC_USERNAME: $PC_USERNAME_VPUPKIN
       PC_USERPWD: $PC_USERPWD_VPUPKIN
@@ -649,19 +656,18 @@ services:
         ipv4_address: ${SUBNET_UPLINK}.143
 
   pc_vkrutikov:
-    build: ./empty
+    build: ./pc
     hostname: pc_vkrutikov
     container_name: pc_vkrutikov
     cap_add:
       - NET_ADMIN        
     volumes:
       - ./pc_vkrutikov/scenario.sh:/opt/scenario.sh
-    shm_size: "1gb" # Важно для стабильности браузеров и GUI  
     environment:
       LDAP_READONLY_USER_USERNAME: ${LDAP_READONLY_USER_USERNAME}
       LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}  
       SG_ADMINS: SG-SRV-PC-ADMINS
-      GATEWAY_IP: ${SUBNET_UPLINK}.254
+      GATEWAY_IP: ${SUBNET_UPLINK}.1
       PC_USERNAME: $PC_USERNAME_STUDENT
       PC_USERPWD: $PC_USERPWD_STUDENT
       LDAP_SUFFIX: $LDAP_SUFFIX      

@@ -58,7 +58,7 @@ for d in /home/users/*; do
   [ -d "$d" ] || continue
   user=$(basename "$d")
   if id "$user" >/dev/null 2>&1; then
-    chown -R "$user:$user" "$d"
+    chown -R "$user:root" "$d"
     chmod 0755 "$d"
   fi
 done
