@@ -48,6 +48,7 @@ services:
     #image: espocrm/espocrm:latest
     build: ./srv_espocrm
     container_name: srv_espocrm
+    hostname: srv_espocrm
     cap_add: [ "NET_ADMIN" ]    
     environment:
       APACHE_LOG_DIR: /var/log/apache2
@@ -605,6 +606,10 @@ services:
     build: ./pc
     hostname: pc_student
     container_name: pc_student
+    depends_on:
+      - srv_wg_portal
+      - fw
+      - srv_dns
     cap_add:
       - NET_ADMIN        
     volumes:
@@ -632,6 +637,10 @@ services:
     build: ./pc
     hostname: pc_vpupkin
     container_name: pc_vpupkin 
+    depends_on:
+      - srv_wg_portal
+      - fw
+      - srv_dns    
     cap_add:
       - NET_ADMIN        
     volumes:
@@ -659,6 +668,10 @@ services:
     build: ./pc
     hostname: pc_vkrutikov
     container_name: pc_vkrutikov
+    depends_on:
+      - srv_wg_portal
+      - fw
+      - srv_dns    
     cap_add:
       - NET_ADMIN        
     volumes:

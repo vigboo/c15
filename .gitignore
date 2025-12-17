@@ -55,7 +55,10 @@ Desktop.ini
 # Игнорируем папки кеша Google Chrome / Chromium
 .config/google-chrome/
 .cache/
-*cache/
+#*cache/
+
+!var/www/html/application/
+!var/www/html/application/**
 
 # --- Browser Automation / Selenium (Если вы используете автоматизацию) ---
 # Драйверы

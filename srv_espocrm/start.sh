@@ -1,6 +1,6 @@
 #!/bin/bash
 
 ip route del default
-ip route add default via $GATEWAY_IP || true
+ip route add default via  || true
 
-exec /usr/bin/entrypoint "$@"
+exec /usr/local/bin/docker-entrypoint.sh apache2-foreground
