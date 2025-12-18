@@ -822,3 +822,4 @@
 192.168.4.3 | - | 16/Dec/2025:20:36:49 +0000 | "192.168.4.11" | "POST / HTTP/1.1" | 403 | 10269 | "-" | "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 192.168.4.3 | - | 16/Dec/2025:20:36:49 +0000 | "192.168.4.11" | "POST / HTTP/1.1" | 405 | 552 | "-" | "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 192.168.4.3 | - | 16/Dec/2025:20:36:49 +0000 | "192.168.4.11" | "POST / HTTP/1.1" | 405 | 552 | "-" | "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+192.168.4.254 | - | 17/Dec/2025:23:49:45 +0000 | "192.168.4.11" | "GET / HTTP/1.1" | 200 | 15515 | "-" | "curl/8.14.1"

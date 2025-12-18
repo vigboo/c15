@@ -25,25 +25,3 @@
 | srv_ldap_mngmt           | Сегмент управления            | Интерфейс управления каталогом (LDAP web UI).             |
 | srv_ansible              | Сегмент управления            | Оркестрация/автоматизация конфигураций Ansible.           |
 | srv_dev                  | Сегмент разработки            | Среда/хост для разработки и тестов.                       |
-
-Доступ к отдельным серверам
-Доступ к VPN-шлюзу для администрирования ОС: ssh://srv_wg_portal.layer8.ag:22, веб-панель: http://srv_wg_portal.layer8.ag:8888 (admin:31877@kq;,,,,)
-Доступ к srv_waf, srv_web по SSH под коллективно учеткой svc_ib_admin
-Доступ к srv_bastion_mgmt, srv_bastion_ib, srv_dev доступен по RDP под коллективной учетной записью svc_ib_admin
-Доступ к srv_bastion_ib доступен по RDP (student).
-Wazuh Dashboard доступен по адресу https://srv_wazuh_dashboard.layer8.ag:5601/ (admin:SecretPassword)
-
-
-Новости:
-Как мы обезопасили наш сайт с помощью WAF.
-Теперь мы защищены от многих видов атак, в том числе SQL-инъекции, XSS и других опасных атаак.
-Также мы установили ограничение на количество обращений, чтобы защититься от DDoS атак. При этом мы используем только бесплатные решения (ModSecurity)!
-В файле настройки веб-сервера nginx /etc/nginx/conf.d/default.conf на srv_waf внесены инструкции:
-
-limit_req_zone $server_name zone=global_limit:10m rate=10r/m;
-server {
-    limit_req zone=global_limit burst=20 nodelay;
-    ...
-}
-
-Группы в LDAP описание

@@ -10,10 +10,9 @@ map $scheme $hsts_header {
         https   "max-age=15768000;";
 }
 server {
-    listen 0.0.0.0:80 default_server backlog=65536 reuseport;
+    listen 0.0.0.0:8080 default_server backlog=65536 reuseport;
     server_name _;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
-    access_log /var/log/nginx/safeline/accesslog_1 safeline_1;
     error_page 497 =302 https://$host:$server_port$request_uri;
     error_page 502 =502 /.safeline/bad_gateway_page;
     error_page 504 =504 /.safeline/gateway_timeout_page;
@@ -52,7 +51,7 @@ server {
         tx_intercept off;
     }
     location ^~ /.safeline/challenge/v2/ {
-        proxy_pass http://192.168.4.10:8080/challenge/v2/;
+        proxy_pass http://192.168.7.10:8080/challenge/v2/;
         t1k_intercept off;
         tx_intercept off;
     }

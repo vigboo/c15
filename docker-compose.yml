@@ -676,6 +676,7 @@ services:
       - NET_ADMIN        
     volumes:
       - ./pc_vkrutikov/scenario.sh:/opt/scenario.sh
+      - ./pc_vkrutikov/wg0.conf:/etc/wireguard/wg0.conf      
     environment:
       LDAP_READONLY_USER_USERNAME: ${LDAP_READONLY_USER_USERNAME}
       LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}  
@@ -728,6 +729,7 @@ services:
 
 networks:
   uplink_net:
+    name: uplink_net
     driver: bridge
     ipam:
       config:
@@ -737,6 +739,7 @@ networks:
       com.docker.network.bridge.name: br-uplink
 #      com.docker.network.bridge.enable_ip_masquerade: "false"      
   dev_net:
+    name: dev_net
     driver: bridge
     ipam:
       config:
@@ -746,6 +749,7 @@ networks:
       com.docker.network.bridge.name: br-dev
       com.docker.network.bridge.enable_ip_masquerade: "false"            
   users_net:
+    name: users_net
     driver: bridge
     ipam:
       config:
@@ -755,6 +759,7 @@ networks:
       com.docker.network.bridge.name: br-users
       com.docker.network.bridge.enable_ip_masquerade: "false"            
   dmz_net:
+    name: dmz_net
     driver: bridge
     ipam:
       config:
@@ -764,6 +769,7 @@ networks:
       com.docker.network.bridge.name: br-dmz
       com.docker.network.bridge.enable_ip_masquerade: "false"            
   servers_net:
+    name: servers_net
     driver: bridge
     ipam:
       config:
@@ -773,6 +779,7 @@ networks:
       com.docker.network.bridge.name: br-servers
       com.docker.network.bridge.enable_ip_masquerade: "false"            
   admin_net:
+    name: admin_net
     driver: bridge
     ipam:
       config:
@@ -782,6 +789,7 @@ networks:
       com.docker.network.bridge.name: br-admin
       com.docker.network.bridge.enable_ip_masquerade: "false"            
   infosec_net:
+    name: infosec_net
     driver: bridge
     ipam:
       config:
