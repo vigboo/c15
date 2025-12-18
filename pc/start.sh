@@ -92,11 +92,13 @@ done
 #Каждую минуту: * * * * *
 #Каждые 5 минут: */5 * * * *
 if [ -f /opt/scenario.sh ]; then
-    echo "Adding scenario ot crontab tasks"
+    period="${SCENARIO_PERIOD:-5}"
+    echo "Adding scenario to cron (every ${period} min)"
     chmod +x /opt/scenario.sh
-    echo "*/${SCENARIO_PERIOD} * * * * /opt/scenario.sh" > /etc/crontabs/root
-    chmod 0600 /etc/crontabs/root
-    crond -l 8 -f &
+    # Use Debian cron layout instead of BusyBox crond paths
+    echo "*/${period} * * * * root /opt/scenario.sh" > /etc/cron.d/scenario
+    chmod 0644 /etc/cron.d/scenario
+    cron -f -L 8 &
 fi
 
 

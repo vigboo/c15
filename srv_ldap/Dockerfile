@@ -5,7 +5,7 @@ RUN sed -i 's@deb.debian.org/debian@archive.debian.org/debian@g; \
             /buster-backports/d' /etc/apt/sources.list \
  && printf 'Acquire::Check-Valid-Until "false";\n' >/etc/apt/apt.conf.d/99no-check-valid \
  && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y nano iputils-ping net-tools rsyslog iproute2 \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y nano iputils-ping net-tools rsyslog iproute2 curl \
  && rm -rf /var/lib/apt/lists/*
 
 

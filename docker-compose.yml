@@ -38,8 +38,6 @@ services:
       SUBNET_USERS: ${SUBNET_USERS}
       SUBNET_DEV: ${SUBNET_DEV}
       VPN_SRV_IP: ${VPN_SRV_IP}
-    ports:
-      - "80:80"
     dns:
       - ${SUBNET_SERVERS}.${DNS_SRV_IP}      
 
@@ -495,6 +493,8 @@ services:
     networks:
       dmz_net:
         ipv4_address: ${SUBNET_DMZ}.${WEB_SRV_IP}
+    ports:
+      - "8089:80"    
     volumes:
       - ./www:/usr/share/nginx/html:ro
       - ./srv_web/zz-server.conf:/etc/nginx/http.d/zz-server.conf:rw
@@ -737,7 +737,7 @@ networks:
     driver_opts:
       com.docker.network.bridge.enable_icc: "true"
       com.docker.network.bridge.name: br-uplink
-#      com.docker.network.bridge.enable_ip_masquerade: "false"      
+      com.docker.network.bridge.enable_ip_masquerade: "false"      
   dev_net:
     name: dev_net
     driver: bridge

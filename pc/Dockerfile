@@ -12,6 +12,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     iputils-ping \
     net-tools \
     rsyslog \
+    cron \
     iproute2 \
     wireguard \
     remmina\

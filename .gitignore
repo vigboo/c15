@@ -49,6 +49,8 @@ Desktop.ini
 *.swp
 *.swo
 
+safeline/data/**
+
 # --- Browsers General (Общие браузерные папки) ---
 # Игнорируем любые папки .mozilla (Firefox)
 .mozilla/
