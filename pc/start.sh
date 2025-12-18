@@ -96,7 +96,7 @@ if [ -f /opt/scenario.sh ]; then
     echo "Adding scenario to cron (every ${period} min)"
     chmod +x /opt/scenario.sh
     # Use Debian cron layout instead of BusyBox crond paths
-    echo "*/${period} * * * * root /opt/scenario.sh" > /etc/cron.d/scenario
+    echo "*/${period} * * * * root LDAP_SRV_IP=${LDAP_SRV_IP} LDAP_SUFFIX=${LDAP_SUFFIX} /opt/scenario.sh" > /etc/cron.d/scenario
     chmod 0644 /etc/cron.d/scenario
     cron -f -L 8 &
 fi

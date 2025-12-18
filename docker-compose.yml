@@ -106,7 +106,7 @@ services:
     container_name: espocrm-daemon
     volumes:
       - espocrm-storage:/var/www/html
-    restart: always
+    restart: no
     entrypoint: docker-daemon.sh   
     networks:
       servers_net:

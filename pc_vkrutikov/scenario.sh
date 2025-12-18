@@ -25,9 +25,5 @@ echo "Starting LDAP auth attempts against ${LDAP_URI} as ${LDAP_BIND_DN}"
 
 for pw in "${PASSWORDS[@]}"; do
     echo -n "Trying password '${pw}': "
-    if ldapwhoami -x -D "${LDAP_BIND_DN}" -w "${pw}" -H "${LDAP_URI}" >/dev/null 2>&1; then
-        echo "SUCCESS"
-    else
-        echo "FAIL"
-    fi
+    ldapwhoami -x -D "${LDAP_BIND_DN}" -w "${pw}" -H "${LDAP_URI}"
 done
